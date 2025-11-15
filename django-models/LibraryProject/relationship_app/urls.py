@@ -3,6 +3,6 @@ from .views import LibraryDetailView
 from .views import list_books
 
 urlpatterns = [
-    path("/library_details", LibraryDetailView.as_view(), name="library_detail"),
-    path("/list_books", list_books.as_view(), name="list_books"),
+    path("/library_details", views.LibraryDetailView.as_view(), name="library_detail"),
+    path("/list_books", views.list_books, name="list_books"),
 ]
