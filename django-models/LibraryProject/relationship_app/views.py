@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from ./models.py import Library, Book, Author, Librarian
 
 # Create your views here.
-def book_list(request):
+def list_books(request):
   books = Book.objects.all
   book_list_text = "Book List:\n\n"
     
