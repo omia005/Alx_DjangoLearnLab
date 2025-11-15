@@ -26,7 +26,7 @@ def list_books_in_library(library_name):
 def retrieve_librarian(library_name):
   try:
     library = Library.objects.get(name=library_name)
-    librarian = Librarian.objects.get(Library=library)
+    librarian = Librarian.objects.get(library=library)
     print(f"librarian for {Library.name} Library is {librarian}")
 
 
