@@ -40,6 +40,15 @@ CSRF_COOKIE_SECURE = True
 
 CSRF_COOKIE_HTTPONLY = True
 
+# Enforce HTTPS for one year (31536000 seconds)
+SECURE_HSTS_SECONDS = 31536000
+
+# Ensure HSTS also applies to subdomains
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# Allow browsers to preload your domain for HSTS
+SECURE_HSTS_PRELOAD = True
+
 ALLOWED_HOSTS = []
 
 
