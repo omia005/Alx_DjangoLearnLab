@@ -1,5 +1,4 @@
-
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,  get_object_or_404
 from .models import Library, Book, Author, Librarian
 from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
@@ -9,7 +8,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, permission_required
+
 
 # Create your views here.
 
@@ -72,6 +72,50 @@ def is_member(user):
 @user_passes_test(is_member)
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')
+
+# ADD BOOK VIEW
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        published_date = request.POST.get('published_date')
+
+        Book.objects.create(
+            title=title,
+            author=author,
+            published_date=published_date
+        )
+        return redirect('book_list')
+
+    return render(request, 'add_book.html')
+
+
+# EDIT BOOK VIEW
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == 'POST':
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.published_date = request.POST.get('published_date')
+        book.save()
+        return redirect('book_list')
+
+    return render(request, 'edit_book.html', {'book': book})
+
+
+# DELETE BOOK VIEW
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == 'POST':
+        book.delete()
+        return redirect('book_list')
+
+    return render(request, 'delete_book.html', {'book': book})
 
 
 
