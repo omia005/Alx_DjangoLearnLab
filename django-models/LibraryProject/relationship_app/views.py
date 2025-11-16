@@ -36,24 +36,12 @@ class RegistrationView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'relashionship_app/register.html'
 
-def login_view(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect("home")
-        else:
-            messages.error(request, "Invalid username or password.")
-            return redirect("login")
-
-    return render(request, "relationship_app/login.html")
+class LoginView(LoginView):
+    template_name = "login.html"
+    redirect_authenticated_user = True
 
 @login_required
-class LogoutPageView(TemplateView):
+class LogoutView(TemplateView):
     template_name = "logout.html"
 
     def get(self, request, *args, **kwargs):
