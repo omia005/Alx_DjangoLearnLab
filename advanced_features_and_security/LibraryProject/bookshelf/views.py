@@ -45,3 +45,6 @@ class BookDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = "books/book_confirm_delete.html"
     success_url = reverse_lazy("book_list")
     permission_required = "bookshelf.can_delete"
+
+raise_exception = True
+
