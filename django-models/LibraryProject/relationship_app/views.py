@@ -37,7 +37,7 @@ class RegisterView(CreateView):
     template_name = "relationship_app/register.html"
     success_url = reverse_lazy("login")
 
-    return render(request, "register.html")
+    return render(request, "relationship_app/register.html")
 
 class LoginView(LoginView):
     template_name = "login.html"
@@ -57,21 +57,21 @@ def is_admin(user):
 
 @user_passes_test(is_admin)
 def admin_view(request):
-    return render(request, 'admin_view.html')
+    return render(request, 'relationship_app/admin_view.html')
 
 def is_librarian(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
 
 @user_passes_test(is_librarian)
 def librarian_view(request):
-    return render(request, 'librarian_view.html')
+    return render(request, 'relationship_app/librarian_view.html')
 
 def is_member(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
 
 @user_passes_test(is_member)
 def member_view(request):
-    return render(request, 'member_view.html')
+    return render(request, 'relationship_app/member_view.html')
 
 
 
