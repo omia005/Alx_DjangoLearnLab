@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Books</title></head>
+<body>
+  <h1>Books</h1>
+
+  <!-- Example search form: use GET or POST but include csrf_token for POST -->
+  <form method="get" action="{% url 'bookshelf:book_list' %}">
+    <input type="search" name="q" value="{{ request.GET.q|default_if_none:'' }}">
+    <button type="submit">Search</button>
+  </form>
+
+  <ul>
+  {% for book in books %}
+    <li>{{ book.title }} — {{ book.author }}</li>  {# Django autoescapes variables by default #}
+  {% empty %}
+    <li>No books found.</li>
+  {% endfor %}
+  </ul>
+</body>
+</html>
