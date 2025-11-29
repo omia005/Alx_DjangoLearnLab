@@ -29,19 +29,19 @@ class BookList(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-class BookCreate(generics.CreateAPIView):
+class CreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-class BookDetail(generics.RetrieveUpdateDestroyAPIView):
+class DetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-class BookUpdate(generics.UpdateAPIView):
+class UpdateView(generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-class BookDelete(generics.DestroyAPIView):
+class DeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
