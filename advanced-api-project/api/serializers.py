@@ -1,15 +1,15 @@
 from rest_framework import serializers
 from .models import Book, Author
 
-//this is the AuthorSerializer
+#this is the AuthorSerializer
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ['id', 'name']
 
-// this is the BookSerializer with nested AuthorSerializer and validation for publication_year
+# this is the BookSerializer with nested AuthorSerializer and validation for publication_year
 class BookSerializer(serializers.ModelSerializer):
-    name = AuthorSerializer(read_only=True)
+    name = AuthorSerializer(many=True, read_only=True)
 
     class Meta:
         model = Book
