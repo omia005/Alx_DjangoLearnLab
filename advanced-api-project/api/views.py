@@ -12,18 +12,6 @@ class BookList(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-class BookViewSet(viewsets.ModelViewSet):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    
-
-    def get(self, request):
-        queryset = Book.objects.all()
-        serializer = BookSerializer(queryset, many=True)
-        return Response(serializer.data)
-    
-    serializer_class = BookSerializer
-    queryset = Book.objects.all()
 
 class ListView(generics.ListAPIView):
     queryset = Book.objects.all()
