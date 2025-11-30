@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
 router = DefaultRouter()
-router.register(r'books',)
+router.register(r'books', ListView, basename='book')
 
 urlpatterns = [
     path('books/', ListView.as_view(), name='book-list'),

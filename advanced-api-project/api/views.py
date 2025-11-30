@@ -7,7 +7,6 @@ from .models import Book
 from .serializers import BookSerializer
 from rest_framework import permissions, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from rest_framework.permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 class ListView(generics.ListAPIView):
@@ -71,7 +70,7 @@ class CreateView(generics.CreateAPIView):
 class UpdateView(generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]  # Only owner can update
+    permission_classes = [permissions.IsAuthenticated, IsAuthenticatedOrReadOnly]  # Only owner can update
     lookup_field = 'pk'
     
     def perform_update(self, serializer):
