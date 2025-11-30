@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework import generics, viewsets
 from .models import Book
 from .serializers import BookSerializer
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions, status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 class BookList(generics.ListAPIView):
@@ -20,6 +21,87 @@ class ListView(generics.ListAPIView):
 class CreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can create
+    
+    def perform_create(self, serializer):
+        """Customize the creation process"""
+        # Add the current user as the book owner/creator
+        serializer.save(created_by=self.request.user)
+        
+    def create(self, request, *args, **kwargs):
+        """Override create to add custom validation and response"""
+        try:
+            # Custom pre-validation logic
+            if not self.is_valid_submission(request):
+                return Response(
+                    {"error": "Invalid submission data"}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                
+            response = super().create(request, *args, **kwargs)
+            
+            # Customize the response
+            response.data['message'] = 'Book created successfully'
+            response.data['book_id'] = response.data['id']
+            return response
+            
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    def is_valid_submission(self, request):
+        """Custom validation method"""
+        # Example: Check if user can create more books
+        user_books_count = Book.objects.filter(created_by=request.user).count()
+        if user_books_count >= 10:  # Limit users to 10 books
+            return False
+        return True
+
+class UpdateView(generics.UpdateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]  # Only owner can update
+    lookup_field = 'pk'
+    
+    def perform_update(self, serializer):
+        """Customize the update process"""
+        # Add update timestamp or track who modified
+        serializer.save(updated_by=self.request.user)
+        
+    def update(self, request, *args, **kwargs):
+        """Override update to add custom validation and response"""
+        try:
+            # Get the object first to check permissions
+            instance = self.get_object()
+            
+            # Custom validation before update
+            if not self.can_update(instance, request):
+                return Response(
+                    {"error": "Update not allowed"}, 
+                    status=status.HTTP_403_FORBIDDEN
+                )
+                
+            response = super().update(request, *args, **kwargs)
+            
+            # Customize the response
+            response.data['message'] = 'Book updated successfully'
+            return response
+            
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    def can_update(self, instance, request):
+        """Custom method to check if update is allowed"""
+        # Example: Prevent updates if book is published
+        if instance.status == 'published':
+            return False
+        return True
+
 
 class DetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
