@@ -10,7 +10,7 @@
     <form class='form-with-validation' action='/blog/register/' method = 'post'>
       {% csrf_token %}
       {{ form }}
-      <button type = 'submit'> Register </button>
+      <button class ='form-submit' type = 'submit'> Register </button>
     </form>
   </div>
 {% endblock%}

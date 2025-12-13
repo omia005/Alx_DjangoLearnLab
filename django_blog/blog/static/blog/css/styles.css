@@ -20,6 +20,7 @@ header {
     text-align: center;
 }
 
+
 header nav ul {
     list-style-type: none;
 }
@@ -70,4 +71,13 @@ footer {
     padding: 10px;
     background-color: #333;
     color: white;
+}
+
+.errorlist {
+    color: #F00;
+    margin-left: 2rem;
+}
+
+.errorlist li::marker {
+    content: '🚨 ';
 }
