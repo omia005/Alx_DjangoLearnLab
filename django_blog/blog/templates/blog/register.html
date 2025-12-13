@@ -1,9 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'blog/base.html' %}
 
 {%block title%} 
-    Register page 
+    Register New User
 {% endblock %}
 
 {% block content %} 
-  <h2> Register <h2>
+  <h2> Register A New User <h2>
+  <div>
+    <form class='form-with-validation' action='/blog/register/' method = 'post'>
+      {% csrf_token %}
+      {{ form }}
+      <button type = 'submit'> Register </button>
+    </form>
+  </div>
 {% endblock%}
