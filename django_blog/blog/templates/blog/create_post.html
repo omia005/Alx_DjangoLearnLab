@@ -1,0 +1,18 @@
+{% extends 'blog/base.html' %}
+
+{%block title%} 
+     New Post
+{% endblock %}
+
+{% block content %} 
+ <section>
+   <h2> New Post <h2>
+   <div>
+     <form class='form-with-validation' action="{% url 'new-post' %}" method = 'post'>
+       {% csrf_token %}
+       {{ form }}
+       <button class ='form-submit' type = 'submit'> Add Post </button>
+     </form>
+   </div>
+  </section>
+{% endblock%}
