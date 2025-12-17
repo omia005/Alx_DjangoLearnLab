@@ -25,9 +25,9 @@
     <div>
         <input type="submit" value="{% if form.instance.pk %}Update{% else %}Create{% endif %}">
         {% if form.instance.pk %}
-            <a href="{% url 'post_detail' form.instance.pk %}">Cancel</a>
+            <a href="{% url 'post-detail' form.instance.pk %}">Cancel</a>
         {% else %}
-            <a href="{% url 'post_list' %}">Cancel</a>
+            <a href="{% url 'post-list' %}">Cancel</a>
         {% endif %}
     </div>
 </form>
