@@ -9,6 +9,12 @@
     <button><a href="{% url 'post-update' post.pk %}">Edit</a></button>
     <button><a href="{% url 'post-delete' post.pk %}">Delete</a></button>
   {% endif %}
+  <form >
+    <button><a href="{% url 'add-comment' post.pk %}">Add Comment</a><button>
+  </form>
+  {% if request == 'POST'%}
+    {{ form }}
+  {% endif %}
 {% endblock %}
 
 {% block title %}

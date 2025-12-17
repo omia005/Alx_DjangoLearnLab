@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from django.urls import reverse_lazy
 from . import forms
-from .models import Post
+from .models import Post, Comment
 # Create your views here.
 
 def login_view(request):
@@ -87,3 +87,14 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user == self.get_object().author
+    
+
+class CommentCreateView(CreateView):
+    model = Comment
+    template_name = 'blog/post_detail.html'
+    success_url = reverse_lazy('post-list')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
