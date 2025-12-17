@@ -46,7 +46,7 @@ def home_view(request):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    template_name = 'blog/create_post.html'
+    template_name = 'blog/post_form.html'
     form_class = forms.CreatePostForm
     success_url = reverse_lazy('post-list')
 
@@ -71,7 +71,7 @@ class PostListView(ListView):
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
-    template_name = 'blog/create_post.html'
+    template_name = 'blog/post_form.html'
     
     def get_success_url(self):
         return reverse_lazy('post-detail', kwargs={'pk': self.object.pk})
