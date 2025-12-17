@@ -23,6 +23,10 @@
         <strong>{{ comment.author }}</strong>
         <small>{{ comment.created_at }}</small>
         <p>{{ comment.content }}</p>
+        {% if user == comment.author %}
+          <a href="{% url 'update-comment' comment.id %}">Edit</a>
+          <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+        {% endif %}
       </div>
     {% endfor %}
    {% else %}
