@@ -7,6 +7,10 @@ class CreatePostForm(forms.ModelForm):
     model = models.Post
     fields = ['title','content', 'tag']
 
+    TagWidgets = {
+      'tag': forms.TextInput(attrs={'placeholder': 'Add tags separated by commas'}),
+    }
+
 class CommentForm(forms.ModelForm):
   class Meta:
     model = Comment
