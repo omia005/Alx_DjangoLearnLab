@@ -6,7 +6,7 @@ from taggit.forms import TagWidget
 class CreatePostForm(forms.ModelForm):
   class Meta:
     model = models.Post
-    fields = ['title','content', 'tag']
+    fields = ['title','content', 'tags']
     widgets = {
             "tags": TagWidget(),
         }
