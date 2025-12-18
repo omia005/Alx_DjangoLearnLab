@@ -8,6 +8,16 @@
   <h1>{{ post.title }}</h1>
   <p>{{ post.content }}</p>
   <p>By {{ post.author }} | {{ post.created_at }}</p>
+  <p>
+   <strong>Tags:</strong>
+   {% for tag in post.tags.all %}
+    <a href="{% url 'posts-by-tag' tag.slug %}">
+      #{{ tag.name }}
+    </a>
+   {% empty %}
+    No tags
+   {% endfor %}
+  </p>
 
   {% if user == post.author %}
     <button><a href="{% url 'post-update' post.pk %}">Edit</a></button>
