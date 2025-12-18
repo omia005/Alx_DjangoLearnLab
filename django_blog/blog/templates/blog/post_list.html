@@ -1,6 +1,17 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
+
+  <form method="get" action="{% url 'search-posts' %}">
+     <input
+       type="text"
+       name="q"
+       placeholder="Search posts..."
+       value="{{ request.GET.q }}"
+     >
+     <button type="submit">Search</button>
+  </form>
+  
   <h1>All Posts</h1>
 
   {% for post in posts %}

@@ -5,23 +5,7 @@
 
 <form method="POST">
     {% csrf_token %}
-    
-    <div>
-        <label for="id_title">Title:</label><br>
-        <input type="text" name="title" id="id_title" 
-               value="{{ form.title.value|default_if_none:'' }}" 
-               maxlength="255" required 
-               style="width: 100%; padding: 8px; margin: 5px 0;">
-    </div>
-    
-    <div>
-        <label for="id_content">Content:</label><br>
-        <textarea name="content" id="id_content" rows="10" required 
-                  style="width: 100%; padding: 8px; margin: 5px 0;">
-            {{ form.content.value|default_if_none:'' }}
-        </textarea>
-    </div>
-    
+    {{ form.as_p }}
     <div>
         <input type="submit" value="{% if form.instance.pk %}Update{% else %}Create{% endif %}">
         {% if form.instance.pk %}
