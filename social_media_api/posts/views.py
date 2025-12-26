@@ -4,6 +4,9 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import SAFE_METHODS, BasePermission
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 # Create your views here.
 class IsOwnerOrReadOnly(BasePermission):
@@ -21,7 +24,6 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size = 5
     page_size_query_param = 'page_size'
     max_page_size = 20
-
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
@@ -49,3 +51,16 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+class FeedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        following_users = request.user.following.all()
+
+        posts = Post.objects.filter(
+            author__in=following_users
+        ).order_by('-created_at')
+
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
